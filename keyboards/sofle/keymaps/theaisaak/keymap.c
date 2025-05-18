@@ -269,3 +269,43 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
     return true;
 }
+
+bool process_detected_host_os_kb(os_variant_t detected_os) {
+    oled_write_ln("Current OS", false);
+    if (!process_detected_host_os_user(detected_os)) {
+        oled_write_ln("OS Not Detected", false);
+        return false;
+    }
+    static const char PROGMEM apple_logo[] = {
+        149,150,10,
+        181,182,0
+    };
+    static const char PROGMEM windows_logo[] = {
+        151,152,10,
+        183,184,0
+    };
+    static const char PROGMEM linux_logo[] = {
+        153,154,10,
+        185,186,0
+    };
+    switch (detected_os) {
+        case OS_MACOS:
+        case OS_IOS:
+            oled_write_P(apple_logo, false);
+            oled_write_ln(" MacOS", false);
+            break;
+        case OS_WINDOWS:
+            oled_write_P(windows_logo, false);
+            oled_write_ln(" Win", false);
+            break;
+        case OS_LINUX:
+            oled_write_ln_P(linux_logo, false);
+             oled_write_ln(" Linux", false);
+            break;
+        case OS_UNSURE:
+            oled_write_ln("OS Unsure", false);
+            break;
+    }
+
+    return true;
+}
