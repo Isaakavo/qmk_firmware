@@ -11,20 +11,7 @@ enum sofle_layers {
     _ADJUST,
 };
 
-enum custom_keycodes {
-    KC_QWERTY = QK_USER,
-    KC_DVORAK,
-    KC_PRVWD,
-    KC_NXTWD,
-    KC_LSTRT,
-    KC_LEND,
-    KC_GIT_COMMIT,
-    KC_A_ACCENT,
-    KC_E_ACCENT,
-    KC_I_ACCENT,
-    KC_O_ACCENT,
-    KC_U_ACCENT,
-};
+enum custom_keycodes { KC_QWERTY = QK_USER, KC_DVORAK, KC_PRVWD, KC_NXTWD, KC_LSTRT, KC_LEND, KC_GIT_COMMIT };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /*
@@ -131,8 +118,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
   [_ADJUST] = LAYOUT(
   KC_QWERTY , KC_DVORAK,  QK_BOOT ,  XXXXXXX , XXXXXXX, XXXXXXX,                                                       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  QK_UNDERGLOW_TOGGLE, QK_UNDERGLOW_MODE_NEXT, XXXXXXX, KC_E_ACCENT, QK_UNDERGLOW_MODE_PREVIOUS,XXXXXXX,                   XXXXXXX, KC_U_ACCENT, KC_I_ACCENT, KC_O_ACCENT, XXXXXXX, XXXXXXX,
-  XXXXXXX , KC_A_ACCENT,QK_UNDERGLOW_VALUE_UP, QK_UNDERGLOW_VALUE_DOWN, QK_UNDERGLOW_SPEED_UP,  QK_UNDERGLOW_SPEED_DOWN,   XXXXXXX, KC_VOLD, KC_MUTE, KC_VOLU, XXXXXXX, XXXXXXX,
+  QK_UNDERGLOW_TOGGLE, QK_UNDERGLOW_MODE_NEXT, XXXXXXX, XXXXXXX, QK_UNDERGLOW_MODE_PREVIOUS,XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  XXXXXXX , XXXXXXX,QK_UNDERGLOW_VALUE_UP, QK_UNDERGLOW_VALUE_DOWN, QK_UNDERGLOW_SPEED_UP,  QK_UNDERGLOW_SPEED_DOWN,   XXXXXXX, KC_VOLD, KC_MUTE, KC_VOLU, XXXXXXX, XXXXXXX,
   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                                       XXXXXXX, XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, XXXXXXX, XXXXXXX,
                    _______, _______, _______, _______, _______,     _______, _______, _______, _______, _______
   )
@@ -152,19 +139,19 @@ bool oled_task_user(void) {
         switch (get_highest_layer(layer_state)) {
             case _QWERTY:
                 oled_write_ln_P(PSTR("QWRTY"), false);
-            break;
-        
+                break;
+
             case _DVORAK:
                 oled_write_ln_P(PSTR("DVRK"), false);
-            break;
+                break;
 
             case _LOWER:
                 oled_write_ln_P(PSTR("LWR"), false);
-            break;
+                break;
 
             case _RAISE:
                 oled_write_ln_P(PSTR("RAIS"), false);
-            break;
+                break;
 
             case _ADJUST:
                 oled_write_ln_P(PSTR("ADJST"), false);
@@ -220,7 +207,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
         case KC_NXTWD:
-             if (record->event.pressed) {
+            if (record->event.pressed) {
                 if (keymap_config.swap_lctl_lgui) {
                     register_mods(mod_config(MOD_LALT));
                     register_code(KC_RIGHT);
@@ -241,7 +228,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case KC_LSTRT:
             if (record->event.pressed) {
                 if (keymap_config.swap_lctl_lgui) {
-                     //CMD-arrow on Mac, but we have CTL and GUI swapped
+                    // CMD-arrow on Mac, but we have CTL and GUI swapped
                     register_mods(mod_config(MOD_LCTL));
                     register_code(KC_LEFT);
                 } else {
@@ -259,7 +246,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case KC_LEND:
             if (record->event.pressed) {
                 if (keymap_config.swap_lctl_lgui) {
-                    //CMD-arrow on Mac, but we have CTL and GUI swapped
+                    // CMD-arrow on Mac, but we have CTL and GUI swapped
                     register_mods(mod_config(MOD_LCTL));
                     register_code(KC_RIGHT);
                 } else {
@@ -276,34 +263,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case KC_GIT_COMMIT:
             if (record->event.pressed) {
-              SEND_STRING("git commit -m \"\"");
+                SEND_STRING("git commit -m \"\"");
             }
-        break;
-        case KC_A_ACCENT:
-            if (record->event.pressed) {
-              SEND_STRING("á");
-            }
-        break;
-        case KC_E_ACCENT:
-            if (record->event.pressed) {
-              SEND_STRING("é");
-            }
-        break;
-        case KC_I_ACCENT:
-            if (record->event.pressed) {
-              SEND_STRING("í");
-            }
-        break;
-        case KC_O_ACCENT:
-            if (record->event.pressed) {
-              SEND_STRING("ó");
-            }
-        break;
-        case KC_U_ACCENT:
-            if (record->event.pressed) {
-              SEND_STRING("ú");
-            }
-        break;
+            break;
     }
     return true;
 }
